@@ -93,13 +93,17 @@ def hanson():
 
 
 def lafarge():
-    url = "https://www.aggregate.com/location-finder"
-    driver = webdriver.Chrome()
-    driver.get(url)
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
-    loc_ele = soup.findAll("li")
-    print(loc_ele)
-    driver.quit()
+    latlng = []
+    data = []
+    url = "https://lafargeholcim.onimap.com/onimap/proxy?url=http%3A%2F%2Fws.onimap%2Fmapframe%2Fjson%2Fwebvisible%3F%26markerLayerId%3D9%26zoom%3D4%26oldZoom%3D4%26bounds%3D40.39565459614818%2C-64.87719369167127%2C59.76672667027262%2C10.53296255832879%26property%3DCOUNTRY"
+    resp = requests.get(url)
+    resp_json = resp.json()
+    markers = resp_json['data']['markers']['add']
+    for i in range(len(markers)):
+        if markers[i]['name'].lower().find('concrete'):
+            latlng.append([markers[i]['lat'], markers[i]['lng']])
+            data.append(markers[i]['name'])
+    return latlng, data
 
 
 file = open('latlong.js', 'w')
@@ -115,3 +119,6 @@ file.write('var data_cemex = ' + str(stuff[1]) + '\n')
 stuff = hanson()
 file.write('var latlong_hanson = ' + str(stuff[0]) + '\n')
 file.write('var data_hanson = ' + str(stuff[1]) + '\n')
+stuff = lafarge()
+file.write('var latlong_lafarge = ' + str(stuff[0]) + '\n')
+file.write('var data_lafarge = ' + str(stuff[1]) + '\n')
