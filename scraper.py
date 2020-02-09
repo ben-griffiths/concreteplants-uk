@@ -100,7 +100,7 @@ def lafarge():
     resp_json = resp.json()
     markers = resp_json['data']['markers']['add']
     for i in range(len(markers)):
-        if markers[i]['name'].lower().find('concrete'):
+        if markers[i]['name'].lower().find('concrete') != -1:
             latlng.append([markers[i]['lat'], markers[i]['lng']])
             data.append(markers[i]['name'])
     return latlng, data
