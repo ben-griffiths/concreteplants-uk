@@ -75,7 +75,6 @@
             var heatmapData = [];
             for (i = 0; i < markers.length; i++) {
                 var position = markers[i].getPosition();
-                console.log(position);
                 heatmapData.push(new google.maps.LatLng(position.lat(), position.lng()));
             }
             var heatmap = new google.maps.visualization.HeatmapLayer({
