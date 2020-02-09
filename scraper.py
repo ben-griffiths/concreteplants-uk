@@ -12,9 +12,10 @@ def tarmac():
     latlong = []
     data = []
     driver = webdriver.Chrome()
+    url = "https://www.tarmac.com/location-finder/"
+    driver.get(url)
     for i in range(1, 53):
-        url = "https://www.tarmac.com/location-finder/find-a-site/?pageNo=" + str(i)
-        driver.get(url)
+        driver.execute_script('FindASite.Result.HandlePageChange("next")')
         soup = BeautifulSoup(driver.page_source, 'html.parser')
 
         loc_ele = soup.findAll("div", {"class": "col-1-1 locationDetail"})
@@ -75,11 +76,12 @@ def hanson():
     data = []
     url = "https://www.hanson.co.uk/en/hanson-location-finder"
     resp = requests.get(url)
-    lats = [m.end() for m in re.finditer('"lat":', resp.text)][2:]
-    lngs = [m.end() for m in re.finditer('"lon":', resp.text)][2:]
+    lats = [m.end() for m in re.finditer('"lat":', resp.text)][:-2]
+    lngs = [m.end() for m in re.finditer('"lon":', resp.text)][:-2]
     datas = [m.end() for m in
              re.finditer("field field-name-field-company field-type-entityreference field-label-hidden field-wrapper",
                          resp.text)][12:]
+
     for i in range(len(lats)):
         lat = float(resp.text[lats[i]:lats[i] + 8].split(",")[0])
         lng = float(resp.text[lngs[i]:lngs[i] + 8].split(",")[0])
@@ -98,6 +100,7 @@ def lafarge():
     loc_ele = soup.findAll("li")
     print(loc_ele)
     driver.quit()
+
 
 file = open('latlong.js', 'w')
 stuff = breedon()
