@@ -21,7 +21,7 @@ def tarmac():
         loc_ele = soup.findAll("div", {"class": "col-1-1 locationDetail"})
         for i, ele in enumerate(loc_ele):
             title = ele.find("h5")
-            if title.getText().lower().find('concrete') != -1:
+            if title.getText().lower().find('concrete') != -1 or title.getText().lower().find('mortar') != -1:
                 data.append(title.getText())
                 loc = ele.find("a", {"class": "getdirection"})
                 latlong.append([loc['data-latitude'], loc['data-longitude']])
@@ -50,7 +50,7 @@ def breedon():
                           "markers }")
     markers = driver.execute_script("return myfunc()")
     for m in markers:
-        if 'ready-mixed-concrete' in m[3]:
+        if 'ready-mixed-concrete' in m[3] or 'mortar' in m[3]:
             latlong.append([str(m[0]), str(m[1])])
             data.append(str(m[2]) + ' products ' + str(m[3]))
     driver.quit()
@@ -64,7 +64,7 @@ def cemex():
     latlong = []
     data = []
     for location in resp_json['theNearestLocations']:
-        if location["locationName"].lower().find('concrete') != -1:
+        if location["locationName"].lower().find('concrete') != -1 or location["locationName"].lower().find('mortar') != -1:
             coords = location['locationAddress']['locationCoordinates']
             latlong.append([coords['latitude'], coords['longitude']])
             data.append(location["locationName"])
@@ -95,7 +95,9 @@ def hanson():
 def lafarge():
     latlng = []
     data = []
-    url = "https://lafargeholcim.onimap.com/onimap/proxy?url=http%3A%2F%2Fws.onimap%2Fmapframe%2Fjson%2Fwebvisible%3F%26markerLayerId%3D9%26zoom%3D4%26oldZoom%3D4%26bounds%3D40.39565459614818%2C-64.87719369167127%2C59.76672667027262%2C10.53296255832879%26property%3DCOUNTRY"
+    url = "https://lafargeholcim.onimap.com/onimap/proxy?url=http%3A%2F%2Fws.onimap%2Fmapframe%2Fjson%2Fwebvisible%3F" \
+          "%26markerLayerId%3D9%26zoom%3D4%26oldZoom%3D4%26bounds%3D40.39565459614818%2C-64.87719369167127%2C59" \
+          ".76672667027262%2C10.53296255832879%26property%3DCOUNTRY"
     resp = requests.get(url)
     resp_json = resp.json()
     markers = resp_json['data']['markers']['add']
