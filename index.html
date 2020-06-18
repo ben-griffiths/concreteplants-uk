@@ -4,91 +4,76 @@
     <title>Concrete Plants UK</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <style>
-        /* Always set the map height explicitly to define the size of the div
-         * element that contains the map. */
-        #map {
-            height: 100%;
-        }
-
-        /* Optional: Makes the sample page fill the window. */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAv_Jl1wKeTSl4euHCL-E2oyfy5fvirYB8&libraries=visualization"></script>
+    <!--            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAv_Jl1wKeTSl4euHCL-E2oyfy5fvirYB8&libraries=visualization"></script>-->
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=visualization"></script>
     <script src="latlong.js"></script>
-    <script>
-        var map;
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="index.css">
 
-        function createMarkers(name, latlong, data, colour, map) {
-            var markers = [];
-            for (i = 0; i < latlong.length; i++) {
-                var marker = new google.maps.Marker({
-                    position: {lat: parseFloat(latlong[i][0]), lng: parseFloat(latlong[i][1])},
-                    info: name.concat(" ", data[i]),
-                    icon: {url: "http://maps.google.com/mapfiles/ms/icons/".concat(colour, "-dot.png")}
-                });
-                markers.push(marker);
-                marker.infowindow = new google.maps.InfoWindow({
-                    content: ''.concat(marker.info, '<br>', '<a href="http://maps.google.com/?q=',
-                        marker.getPosition().lat(), ',', marker.getPosition().lng(), '">Google Maps</a>')
-                });
-                google.maps.event.addListener(marker, 'click', function () {
-                    this.infowindow.open(map, this);
-                });
-            }
-            return markers;
-        }
-
-        function initialize() {
-            var mapOptions = {
-                zoom: 6,
-                center: {lat: 52.936204377764, lng: -1.17873295}
-            };
-            map = new google.maps.Map(document.getElementById('map'),
-                mapOptions);
-
-            var markers = createMarkers('Tarmac', latlong_tarmac, data_tarmac, 'red', map).concat(
-                createMarkers('Breedon', latlong_breedon, data_breedon, 'blue', map),
-                createMarkers('Cemex', latlong_cemex, data_cemex, 'green', map),
-                createMarkers('', latlong_hanson, data_hanson, 'purple', map),
-                createMarkers('Lafarge', latlong_lafarge, data_lafarge, 'yellow', map),
-                createMarkers('Brett', latlong_brett, data_brett, 'pink', map)
-            );
-
-            var maxValue = 8;
-            google.maps.event.addListener(map, 'zoom_changed', function () {
-                var zoom = map.getZoom();
-                if (zoom > maxValue) {
-                    for (var i = 0; i < markers.length; i++) {
-                        markers[i].setMap(map);
-                    }
-                } else {
-                    for (var i = 0; i < markers.length; i++) {
-                        markers[i].setMap(null);
-                    }
-                }
-            });
-
-            var heatmapData = [];
-            for (i = 0; i < markers.length; i++) {
-                var position = markers[i].getPosition();
-                heatmapData.push(new google.maps.LatLng(position.lat(), position.lng()));
-            }
-            var heatmap = new google.maps.visualization.HeatmapLayer({
-                data: heatmapData,
-                radius: 20,
-            });
-            heatmap.setMap(map);
-        }
-
-        google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
 </head>
 <body>
-<div id="map"></div>
+
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none; right:0;" id="sidebar">
+    <table>
+        <th>
+            <tr>
+                <button class="w3-bar-item w3-button w3-large"
+                        onclick="sidebar_close()">Close &times;
+                </button>
+            </tr>
+            <tr>
+                <center>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                    <p style="display: inline-block">Breedon</p>
+                </center>
+            </tr>
+            <tr>
+                <center>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                    <p style="display: inline-block">Breedon</p>
+                </center>
+            </tr>
+            <tr>
+                <center>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                    <p style="display: inline-block">Breedon</p>
+                </center>
+            </tr>
+            <tr>
+                <center>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                    <p style="display: inline-block">Breedon</p>
+                </center>
+            </tr>
+            <hr>
+            <tr>
+                <center>
+                    <button>Apply</button>
+                </center>
+
+
+            </tr>
+        </th>
+    </table>
+</div>
+
+<div id="main">
+    <button id="openNav" class="w3-button w3-white w3-large" onclick="sidebar_open()">&#128270;</button>
+    <div id="map"></div>
+</div>
+
 </body>
 </html>
