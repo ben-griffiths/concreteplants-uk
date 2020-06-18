@@ -75,4 +75,16 @@ function sidebar_close() {
     document.getElementById("openNav").style.display = "inline-block";
 }
 
+function add_filter(string) {
+    let btn = document.createElement("BUTTON");
+    btn.innerHTML = string + " &times";
+    btn.style.borderRadius = "3px";
+    btn.style.border = "1px solid black";
+    btn.onclick = function () {
+        btn.parentElement.removeChild(btn);
+    };
+    document.getElementById("filter_container").appendChild(btn)
+}
+
+
 google.maps.event.addDomListener(window, 'load', initialize);

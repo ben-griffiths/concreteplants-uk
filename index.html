@@ -10,11 +10,15 @@
     <script src="index.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="index.css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none; right:0;" id="sidebar">
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none; text-align: center; right:0;"
+     id="sidebar">
     <table>
         <th>
             <tr>
@@ -23,40 +27,35 @@
                 </button>
             </tr>
             <tr>
-                <center>
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                    </label>
-                    <p style="display: inline-block">Breedon</p>
-                </center>
+                <div id="filter_container"></div>
             </tr>
             <tr>
-                <center>
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                    </label>
-                    <p style="display: inline-block">Breedon</p>
-                </center>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" style="margin-left: 2px; width: calc(100% - 8px);"
+                            type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Companies
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button class="dropdown-item" onclick="add_filter(this.innerHTML)">Action 1</button>
+                        <button class="dropdown-item" onclick="add_filter(this.innerHTML)">Action 2</button>
+                        <button class="dropdown-item" onclick="add_filter(this.innerHTML)">Action 3</button>
+                    </div>
+                </div>
             </tr>
             <tr>
-                <center>
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                    </label>
-                    <p style="display: inline-block">Breedon</p>
-                </center>
-            </tr>
-            <tr>
-                <center>
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                    </label>
-                    <p style="display: inline-block">Breedon</p>
-                </center>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" style="margin-left: 2px; width: calc(100% - 8px);"
+                            type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Keywords
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button class="dropdown-item" onclick="add_filter(this.innerHTML)">Action 4</button>
+                        <button class="dropdown-item" onclick="add_filter(this.innerHTML)">Action 5</button>
+                        <button class="dropdown-item" onclick="add_filter(this.innerHTML)">Action 6</button>
+                    </div>
+                </div>
             </tr>
             <hr>
             <tr>
