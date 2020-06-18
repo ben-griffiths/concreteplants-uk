@@ -3,9 +3,6 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
 import re
-import pandas as pd
-import gmplot
-from IPython.display import display
 
 
 def tarmac():
@@ -107,6 +104,22 @@ def lafarge():
             data.append(markers[i]['name'])
     return latlng, data
 
+def brett():
+    latlong = []
+    data = []
+    driver = webdriver.Chrome()
+    url = "https://www.brett.co.uk/contact"
+    driver.get(url)
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+
+    loc_ele = soup.findAll("div", {"class": "js-marker-item"})
+    for i, ele in enumerate(loc_ele):
+        title = ele.findAll("p")[1]
+        if title.getText().lower().find('concrete') != -1:
+            data.append(title.getText())
+            latlong.append([ele['data-lat'], ele['data-long']])
+    driver.quit()
+    return latlong, data
 
 file = open('latlong.js', 'w')
 stuff = breedon()
@@ -124,3 +137,6 @@ file.write('var data_hanson = ' + str(stuff[1]) + '\n')
 stuff = lafarge()
 file.write('var latlong_lafarge = ' + str(stuff[0]) + '\n')
 file.write('var data_lafarge = ' + str(stuff[1]) + '\n')
+stuff = brett()
+file.write('var latlong_brett = ' + str(stuff[0]) + '\n')
+file.write('var data_brett = ' + str(stuff[1]) + '\n')
