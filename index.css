@@ -77,3 +77,7 @@ html, body, #main {
 }
 
 div button {margin: 2px;}
+
+#sidebar {
+    min-width: 150px;
+}
