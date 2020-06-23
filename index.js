@@ -2,8 +2,8 @@ var map;
 var markers = [];
 var filterd_markers = [];
 var heatmap;
-var company_filters = []
-var keyword_filters = []
+var company_filters = [];
+var keyword_filters = [];
 
 function createMarkers(name, latlong, data, colour, map) {
     var mrks = [];
@@ -93,51 +93,40 @@ function removeItem(arr, value) {
     return arr;
 }
 
-function add_company_filter(string) {
+function create_button(string) {
     let btn = document.createElement("BUTTON");
     btn.innerHTML = string + " &times";
     btn.style.borderRadius = "3px";
     btn.style.borderWidth = "0px";
+    return btn;
+}
+
+function add_company_filter(string) {
+    let btn = create_button(string);
     btn.classList.add("btn-primary");
     btn.onclick = function () {
         btn.parentElement.removeChild(btn);
         company_filters = removeItem(company_filters, string);
     };
-    document.getElementById("filter_container").appendChild(btn)
+    document.getElementById("filter_container").appendChild(btn);
     company_filters.push(string);
 }
 
 function add_keyword_filter(string) {
-    let btn = document.createElement("BUTTON");
-    btn.innerHTML = string + " &times";
-    btn.style.borderRadius = "3px";
-    btn.style.borderWidth = "0px";
+    let btn = create_button(string);
     btn.classList.add("btn-secondary");
     btn.onclick = function () {
         btn.parentElement.removeChild(btn);
         keyword_filters = removeItem(keyword_filters, string);
     };
-    document.getElementById("filter_container").appendChild(btn)
+    document.getElementById("filter_container").appendChild(btn);
     keyword_filters.push(string);
 }
 
-function filtered_company(info) {
-    if (company_filters.length > 0) {
-        for (let i = 0; i < company_filters.length; i++) {
-            if (info.includes(company_filters[i])) {
-                return true;
-            }
-        }
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function filtered_keyword(info) {
-    if (keyword_filters.length > 0) {
-        for (let i = 0; i < keyword_filters.length; i++) {
-            if (info.includes(keyword_filters[i])) {
+function in_filter(info, filter) {
+    if (filter.length > 0) {
+        for (let i = 0; i < filter.length; i++) {
+            if (info.includes(filter[i])) {
                 return true;
             }
         }
@@ -148,18 +137,19 @@ function filtered_keyword(info) {
 }
 
 function filter() {
-    let heatmapData = [];
+    let heatmap_data = [];
     filterd_markers = [];
 
     for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
-        if (filtered_company(markers[i].info) && filtered_keyword(markers[i].info)) {
-            heatmapData.push(markers[i].getPosition());
+        if (in_filter(markers[i].info, company_filters) &&
+            in_filter(markers[i].info, keyword_filters)) {
+            heatmap_data.push(markers[i].getPosition());
             filterd_markers.push(markers[i]);
         }
     }
     update_zoom();
-    heatmap.data.i = heatmapData;
+    heatmap.data.i = heatmap_data;
     heatmap.setMap(map);
 }
 
